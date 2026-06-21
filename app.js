@@ -72,6 +72,45 @@
     $("quoteSource").textContent = quote.source ? "—— " + quote.source : "";
   }
 
+  function renderHighlight(highlight) {
+    var sourceParts = [];
+    if (highlight.bookTitle) {
+      sourceParts.push("《" + highlight.bookTitle + "》");
+    }
+    if (highlight.author) {
+      sourceParts.push(highlight.author);
+    }
+    if (highlight.chapter) {
+      sourceParts.push(highlight.chapter);
+    }
+    $("quoteText").textContent = highlight.text;
+    $("quoteSource").textContent = sourceParts.length ? "—— " + sourceParts.join(" / ") : "—— 微信读书划线";
+  }
+
+  function loadHighlight(now) {
+    if (!window.fetch) {
+      return;
+    }
+
+    fetch("highlights.json?v=" + dayKey(now))
+      .then(function (response) {
+        if (!response.ok) {
+          throw new Error("Highlights request failed");
+        }
+        return response.json();
+      })
+      .then(function (data) {
+        var highlights = data.highlights || [];
+        if (!highlights.length) {
+          return;
+        }
+        renderHighlight(highlights[hashText(dayKey(now)) % highlights.length]);
+      })
+      .catch(function () {
+        // Keep the local quote fallback when WeRead highlights are unavailable.
+      });
+  }
+
   function renderWeather(data) {
     var current = data.current || {};
     var details = weatherCode(current.weather_code);
@@ -161,5 +200,6 @@
   var now = new Date();
   renderDate(now);
   renderQuote(now);
+  loadHighlight(now);
   loadWeather();
 }());
