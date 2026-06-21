@@ -1,7 +1,7 @@
 (function () {
   var config = window.KINDLE_DAILY_CONFIG || {};
   var quotes = config.quotes || [];
-  var dataVersion = "20260621-kindle512";
+  var dataVersion = "20260621-weather-calendar";
 
   function $(id) {
     return document.getElementById(id);
@@ -147,7 +147,7 @@
     $("weatherIcon").textContent = details[1];
     $("temperatureText").textContent = Math.round(current.temperature_2m) + "°";
     $("weatherDesc").textContent = details[0];
-    $("weatherMeta").textContent = "体感 " + Math.round(current.apparent_temperature) + "° · 风速 " + Math.round(current.wind_speed_10m) + " km/h · 湿度 " + Math.round(current.relative_humidity_2m) + "%";
+    $("weatherMeta").textContent = "";
     renderForecast(data.daily || {});
     $("updatedText").textContent = "天气更新于 " + current.time;
   }
@@ -170,20 +170,16 @@
     var maxTemps = daily.temperature_2m_max || [];
     var minTemps = daily.temperature_2m_min || [];
     var weatherCodes = daily.weather_code || [];
-    var rainChances = daily.precipitation_probability_max || [];
     var html = "";
 
     for (var i = 0; i < times.length && i < 7; i += 1) {
       var details = weatherCode(weatherCodes[i]);
       var max = Math.round(maxTemps[i]);
       var min = Math.round(minTemps[i]);
-      var rain = rainChances[i];
-      var rainText = typeof rain === "number" ? rain + "%" : "--";
       html += "<div class=\"forecast-row\">"
         + "<span class=\"forecast-day\">" + dayLabel(times[i], i) + "</span>"
-        + "<span class=\"forecast-desc\">" + details[0] + "</span>"
+        + "<span class=\"forecast-desc\">" + details[1] + "</span>"
         + "<span class=\"forecast-temp\">" + min + "° / " + max + "°</span>"
-        + "<span class=\"forecast-rain\">" + rainText + "</span>"
         + "</div>";
     }
 
