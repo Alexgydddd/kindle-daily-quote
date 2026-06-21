@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>今日语录与天气</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="page">
+    <section class="date-block">
+      <div id="dateText" class="date-text">加载日期中...</div>
+      <div id="locationText" class="location-text">加载天气中...</div>
+    </section>
+
+    <section class="quote-block">
+      <p id="quoteText" class="quote-text">加载今日语录中...</p>
+      <p id="quoteSource" class="quote-source"></p>
+    </section>
+
+    <section class="weather-block">
+      <div class="weather-main">
+        <span id="weatherIcon" class="weather-icon">--</span>
+        <span id="temperatureText" class="temperature-text">--°</span>
+      </div>
+      <div id="weatherDesc" class="weather-desc">等待天气数据</div>
+      <div id="weatherMeta" class="weather-meta"></div>
+    </section>
+
+    <footer class="footer">
+      <span id="updatedText">未更新</span>
+    </footer>
+  </main>
+
+  <script src="quotes.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
