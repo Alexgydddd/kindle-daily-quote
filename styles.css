@@ -95,6 +95,43 @@ body {
   font-size: clamp(13px, 2vw, 18px);
 }
 
+.forecast-list {
+  margin-top: 18px;
+  display: grid;
+  gap: 8px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+.forecast-row {
+  display: grid;
+  grid-template-columns: minmax(48px, 0.8fr) minmax(68px, 1.1fr) minmax(76px, 1fr) minmax(54px, 0.8fr);
+  align-items: center;
+  gap: 10px;
+  min-height: 30px;
+  border-top: 1px solid rgba(17, 17, 17, 0.16);
+  padding-top: 8px;
+  font-size: clamp(13px, 2vw, 18px);
+}
+
+.forecast-day {
+  font-weight: 700;
+}
+
+.forecast-desc,
+.forecast-rain {
+  color: var(--muted);
+}
+
+.forecast-temp {
+  text-align: right;
+  font-family: Georgia, serif;
+  font-size: clamp(15px, 2.4vw, 22px);
+}
+
+.forecast-rain {
+  text-align: right;
+}
+
 .footer {
   font-size: 12px;
 }
@@ -103,5 +140,10 @@ body {
   .page {
     padding: 36px 24px 28px;
     gap: 24px;
+  }
+
+  .forecast-row {
+    grid-template-columns: 48px 1fr 74px 48px;
+    gap: 8px;
   }
 }
