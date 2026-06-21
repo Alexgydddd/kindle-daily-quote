@@ -1,0 +1,107 @@
+:root {
+  --ink: #111;
+  --muted: #555;
+  --hairline: #bbb;
+  --paper: #f7f7f2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: Georgia, "Songti SC", "SimSun", serif;
+}
+
+.page {
+  min-height: 100vh;
+  padding: 7vh 7vw 5vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.date-block,
+.weather-block,
+.footer {
+  border-top: 1px solid var(--hairline);
+  padding-top: 16px;
+}
+
+.date-text {
+  font-size: clamp(20px, 4vw, 34px);
+  line-height: 1.2;
+}
+
+.location-text,
+.weather-desc,
+.weather-meta,
+.footer {
+  color: var(--muted);
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+.location-text {
+  margin-top: 8px;
+  font-size: clamp(13px, 2.1vw, 18px);
+}
+
+.quote-block {
+  margin: auto 0;
+}
+
+.quote-text {
+  margin: 0;
+  font-size: clamp(34px, 7.5vw, 72px);
+  line-height: 1.28;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.quote-source {
+  margin: 24px 0 0;
+  color: var(--muted);
+  font-size: clamp(14px, 2vw, 20px);
+}
+
+.weather-main {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+}
+
+.weather-icon {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(22px, 4vw, 36px);
+}
+
+.temperature-text {
+  font-size: clamp(40px, 8vw, 76px);
+  line-height: 1;
+  font-family: Georgia, serif;
+}
+
+.weather-desc {
+  margin-top: 10px;
+  font-size: clamp(18px, 3vw, 28px);
+}
+
+.weather-meta {
+  margin-top: 8px;
+  font-size: clamp(13px, 2vw, 18px);
+}
+
+.footer {
+  font-size: 12px;
+}
+
+@media (max-width: 520px) {
+  .page {
+    padding: 36px 24px 28px;
+    gap: 24px;
+  }
+}
