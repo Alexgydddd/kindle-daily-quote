@@ -1,7 +1,7 @@
 (function () {
   var config = window.KINDLE_DAILY_CONFIG || {};
   var quotes = config.quotes || [];
-  var dataVersion = "20260621-weread-sync";
+  var dataVersion = "20260621-content-first";
 
   function $(id) {
     return document.getElementById(id);
@@ -69,8 +69,20 @@
 
   function renderQuote(now) {
     var quote = chooseQuote(now);
-    $("quoteText").textContent = quote.text;
+    setQuoteText(quote.text);
     $("quoteSource").textContent = quote.source ? "—— " + quote.source : "";
+  }
+
+  function setQuoteText(text) {
+    var quoteText = $("quoteText");
+    var length = String(text || "").length;
+    quoteText.className = "quote-text";
+    if (length > 120) {
+      quoteText.className += " quote-very-long";
+    } else if (length > 72) {
+      quoteText.className += " quote-long";
+    }
+    quoteText.textContent = text;
   }
 
   function renderHighlight(highlight) {
@@ -84,7 +96,7 @@
     if (highlight.chapter) {
       sourceParts.push(highlight.chapter);
     }
-    $("quoteText").textContent = highlight.text;
+    setQuoteText(highlight.text);
     $("quoteSource").textContent = sourceParts.length ? "—— " + sourceParts.join(" / ") : "—— 微信读书划线";
   }
 
