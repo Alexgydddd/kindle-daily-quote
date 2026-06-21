@@ -1,6 +1,7 @@
 (function () {
   var config = window.KINDLE_DAILY_CONFIG || {};
   var quotes = config.quotes || [];
+  var dataVersion = "20260621-weread-sync";
 
   function $(id) {
     return document.getElementById(id);
@@ -92,7 +93,7 @@
       return;
     }
 
-    fetch("highlights.json?v=" + dayKey(now))
+    fetch("highlights.json?v=" + dataVersion + "-" + dayKey(now))
       .then(function (response) {
         if (!response.ok) {
           throw new Error("Highlights request failed");
