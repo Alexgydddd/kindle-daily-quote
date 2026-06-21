@@ -79,7 +79,46 @@
     $("temperatureText").textContent = Math.round(current.temperature_2m) + "°";
     $("weatherDesc").textContent = details[0];
     $("weatherMeta").textContent = "体感 " + Math.round(current.apparent_temperature) + "° · 风速 " + Math.round(current.wind_speed_10m) + " km/h · 湿度 " + Math.round(current.relative_humidity_2m) + "%";
+    renderForecast(data.daily || {});
     $("updatedText").textContent = "天气更新于 " + current.time;
+  }
+
+  function dayLabel(dateText, index) {
+    if (index === 0) {
+      return "今天";
+    }
+    if (index === 1) {
+      return "明天";
+    }
+    var date = new Date(dateText + "T00:00:00");
+    var week = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+    return week[date.getDay()];
+  }
+
+  function renderForecast(daily) {
+    var list = $("forecastList");
+    var times = daily.time || [];
+    var maxTemps = daily.temperature_2m_max || [];
+    var minTemps = daily.temperature_2m_min || [];
+    var weatherCodes = daily.weather_code || [];
+    var rainChances = daily.precipitation_probability_max || [];
+    var html = "";
+
+    for (var i = 0; i < times.length && i < 7; i += 1) {
+      var details = weatherCode(weatherCodes[i]);
+      var max = Math.round(maxTemps[i]);
+      var min = Math.round(minTemps[i]);
+      var rain = rainChances[i];
+      var rainText = typeof rain === "number" ? rain + "%" : "--";
+      html += "<div class=\"forecast-row\">"
+        + "<span class=\"forecast-day\">" + dayLabel(times[i], i) + "</span>"
+        + "<span class=\"forecast-desc\">" + details[0] + "</span>"
+        + "<span class=\"forecast-temp\">" + min + "° / " + max + "°</span>"
+        + "<span class=\"forecast-rain\">" + rainText + "</span>"
+        + "</div>";
+    }
+
+    list.innerHTML = html || "<div class=\"forecast-row\"><span class=\"forecast-desc\">7天天气暂时无法获取</span></div>";
   }
 
   function renderWeatherError() {
@@ -87,6 +126,7 @@
     $("temperatureText").textContent = "--°";
     $("weatherDesc").textContent = "天气暂时无法获取";
     $("weatherMeta").textContent = "请检查 Kindle 是否联网，或稍后刷新页面。";
+    $("forecastList").innerHTML = "";
     $("updatedText").textContent = "天气未更新";
   }
 
@@ -98,6 +138,8 @@
       + "?latitude=" + encodeURIComponent(latitude)
       + "&longitude=" + encodeURIComponent(longitude)
       + "&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m"
+      + "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max"
+      + "&forecast_days=7"
       + "&timezone=" + timezone;
 
     if (!window.fetch) {
