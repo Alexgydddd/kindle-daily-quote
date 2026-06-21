@@ -51,6 +51,25 @@ GitHub Pages 可以免费托管这个静态页面。电脑关机后，Kindle 仍
 }
 ```
 
+## 同步微信读书划线
+
+页面会优先读取 `highlights.json` 中的微信读书划线；如果没有同步到内容，会自动回退到 `quotes.js` 里的本地短句。
+
+### 配置 GitHub Actions 自动同步
+
+1. 前往微信读书 Skill 页面获取 API Key：
+   - https://weread.qq.com/r/weread-skills
+2. 打开本仓库的 `Settings` -> `Secrets and variables` -> `Actions`。
+3. 新建 Repository secret：
+   - Name: `WEREAD_API_KEY`
+   - Secret: 你的 `wrk-...` API Key
+4. 打开 `Actions` -> `Sync WeRead Highlights`。
+5. 点击 `Run workflow` 手动跑一次。
+
+之后 GitHub Actions 会每天自动同步一次，把最近的划线写入 `highlights.json`。
+
+注意：本仓库是公开仓库时，`highlights.json` 里的划线内容也是公开可见的。只同步你愿意公开展示的内容。
+
 ## 天气数据
 
 天气接口使用 Open-Meteo Forecast API，无需 API Key。页面请求当前温度、体感温度、湿度、天气代码和风速。
