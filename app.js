@@ -1,7 +1,7 @@
 (function () {
   var config = window.KINDLE_DAILY_CONFIG || {};
   var quotes = config.quotes || [];
-  var dataVersion = "20260621-content-first";
+  var dataVersion = "20260621-kindle512";
 
   function $(id) {
     return document.getElementById(id);
@@ -73,6 +73,27 @@
     $("quoteSource").textContent = quote.source ? "—— " + quote.source : "";
   }
 
+  function getJSON(url, onSuccess, onError) {
+    var request = new XMLHttpRequest();
+    request.open("GET", url, true);
+    request.onreadystatechange = function () {
+      if (request.readyState !== 4) {
+        return;
+      }
+      if (request.status >= 200 && request.status < 300) {
+        try {
+          onSuccess(JSON.parse(request.responseText));
+        } catch (error) {
+          onError();
+        }
+      } else {
+        onError();
+      }
+    };
+    request.onerror = onError;
+    request.send();
+  }
+
   function setQuoteText(text) {
     var quoteText = $("quoteText");
     var length = String(text || "").length;
@@ -101,27 +122,23 @@
   }
 
   function loadHighlight(now) {
-    if (!window.fetch) {
+    if (!window.XMLHttpRequest) {
       return;
     }
 
-    fetch("highlights.json?v=" + dataVersion + "-" + dayKey(now))
-      .then(function (response) {
-        if (!response.ok) {
-          throw new Error("Highlights request failed");
-        }
-        return response.json();
-      })
-      .then(function (data) {
+    getJSON(
+      "highlights.json?v=" + dataVersion + "-" + dayKey(now),
+      function (data) {
         var highlights = data.highlights || [];
         if (!highlights.length) {
           return;
         }
         renderHighlight(highlights[hashText(dayKey(now)) % highlights.length]);
-      })
-      .catch(function () {
+      },
+      function () {
         // Keep the local quote fallback when WeRead highlights are unavailable.
-      });
+      }
+    );
   }
 
   function renderWeather(data) {
@@ -194,20 +211,12 @@
       + "&forecast_days=7"
       + "&timezone=" + timezone;
 
-    if (!window.fetch) {
+    if (!window.XMLHttpRequest) {
       renderWeatherError();
       return;
     }
 
-    fetch(url)
-      .then(function (response) {
-        if (!response.ok) {
-          throw new Error("Weather request failed");
-        }
-        return response.json();
-      })
-      .then(renderWeather)
-      .catch(renderWeatherError);
+    getJSON(url, renderWeather, renderWeatherError);
   }
 
   var now = new Date();
