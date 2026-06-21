@@ -94,9 +94,7 @@ body {
 }
 
 .weather-main {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
+  display: none;
 }
 
 .weather-icon {
@@ -113,64 +111,59 @@ body {
 }
 
 .weather-desc {
-  margin-top: 4px;
-  font-size: 18px;
-  font-size: clamp(14px, 2.1vw, 20px);
+  display: none;
 }
 
 .weather-meta {
-  margin-top: 4px;
-  font-size: 13px;
-  font-size: clamp(11px, 1.6vw, 15px);
+  display: none;
 }
 
 .forecast-list {
-  margin-top: 10px;
-  display: grid;
-  gap: 4px;
+  margin-top: 0;
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
   font-family: "Helvetica Neue", Arial, sans-serif;
 }
 
 .forecast-row {
-  display: table;
-  width: 100%;
+  display: table-cell;
+  width: 14.28%;
   table-layout: fixed;
-  min-height: 24px;
-  border-top: 1px solid rgba(17, 17, 17, 0.16);
-  padding-top: 5px;
-  font-size: 13px;
-  font-size: clamp(11px, 1.55vw, 15px);
+  border-top: 1px solid rgba(17, 17, 17, 0.2);
+  border-right: 1px solid rgba(17, 17, 17, 0.14);
+  padding: 8px 4px 6px;
+  text-align: center;
+  vertical-align: top;
+  font-size: 12px;
+  font-size: clamp(10px, 1.4vw, 14px);
 }
 
 .forecast-day {
-  display: table-cell;
-  width: 16%;
+  display: block;
+  width: auto;
   font-weight: 700;
 }
 
 .forecast-desc {
-  display: table-cell;
-  width: 34%;
-}
-
-.forecast-desc,
-.forecast-rain {
-  color: var(--muted);
+  display: block;
+  width: auto;
+  margin-top: 4px;
+  color: var(--ink);
+  font-family: Georgia, serif;
+  font-size: 20px;
+  font-size: clamp(16px, 2.4vw, 24px);
 }
 
 .forecast-temp {
-  display: table-cell;
-  width: 32%;
-  text-align: right;
+  display: block;
+  width: auto;
+  margin-top: 4px;
+  text-align: center;
   font-family: Georgia, serif;
-  font-size: 15px;
-  font-size: clamp(12px, 1.9vw, 17px);
-}
-
-.forecast-rain {
-  display: table-cell;
-  width: 18%;
-  text-align: right;
+  font-size: 12px;
+  font-size: clamp(10px, 1.45vw, 14px);
 }
 
 .footer {
@@ -204,6 +197,15 @@ body {
   }
 
   .forecast-row {
-    font-size: 12px;
+    padding: 7px 2px 5px;
+    font-size: 10px;
+  }
+
+  .forecast-desc {
+    font-size: 17px;
+  }
+
+  .forecast-temp {
+    font-size: 10px;
   }
 }
