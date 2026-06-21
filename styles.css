@@ -98,6 +98,7 @@ body {
 }
 
 .weather-icon {
+  color: var(--ink);
   font-family: "Helvetica Neue", Arial, sans-serif;
   font-size: 22px;
   font-size: clamp(16px, 2.8vw, 26px);
